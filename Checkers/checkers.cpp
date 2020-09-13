@@ -4,6 +4,15 @@
 #include "checkers.hpp"
 using namespace std;
 
+std::list<Position> diagonals[] = 
+{
+	{{0,0}, {1,1}, {2,1}, {3,2}, {4,2}, {5,3}, {6,3}},
+	{{1,0}, {2,0}, {3,1}, {4,1}, {5,2}, {6,2}, {7,3}},
+    {{3,0}, {4,0}, {5,1}, {6,1}, {7,2}},
+	{{0,1}, {1,2}, {2,2}, {3,3}, {4,3}},
+	{{5,0}, {6,0}, {7,1}},
+	{{0,2}, {1,3}, {2,3}}
+};
 
 BoardSituation getDefaultBoard() {
     BoardSituation situation;
@@ -64,6 +73,17 @@ string BoardSituation::toString() {
     result += ' ';
     result += this->blackTurn?'b':'w';
     return result;
+}
+
+set<BoardSituation> getPossibleMoves(BoardSituation situation) {
+	for (char i = 0; i < 8; ++i) {
+		char direction = (situation.blackTurn) ? 1 : -1;
+		for (char j = 0; j < 4; ++j) {
+			if (situation.board[i][j].is_empty || !situation.board[i][j].is_empty && !situation.board[i][j].is_king && (i + direction < 0 || i + direction >= 8))
+				continue;
+			// Walk by diagonals
+		}
+	}
 }
 
 void drawBoard(BoardSituation situation) {
