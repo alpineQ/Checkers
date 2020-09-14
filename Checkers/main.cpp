@@ -44,6 +44,6 @@ void test() {
 }
 
 int main() {
-	test();
+	game();
 	return 0;
 }

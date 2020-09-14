@@ -123,19 +123,23 @@ set<BoardSituation> checkCanMove(BoardSituation situation, char i, char j) {
 				continue;
 
 			auto forwardPosition = next(pos);
-			if (forwardPosition != diagonal.end() && situation.board[forwardPosition->i][forwardPosition->j].is_empty) {
+			while (forwardPosition != diagonal.end() && situation.board[forwardPosition->i][forwardPosition->j].is_empty) {
 				BoardSituation forwardSituation = moveChecker(situation, *pos, *forwardPosition);
 				forwardSituation.blackTurn = !situation.blackTurn;
 				possibleMoves.insert(forwardSituation);
+				forwardPosition = next(forwardPosition);
 			}
 
 			if (pos == diagonal.begin())
 				continue;
 			auto backwardPosition = prev(pos);
-			if (situation.board[backwardPosition->i][backwardPosition->j].is_empty) {
+			while (situation.board[backwardPosition->i][backwardPosition->j].is_empty) {
 				BoardSituation backwardSituation = moveChecker(situation, *pos, *backwardPosition);
 				backwardSituation.blackTurn = !situation.blackTurn;
 				possibleMoves.insert(backwardSituation);
+				if (backwardPosition == diagonal.begin())
+					break;
+				backwardPosition = prev(backwardPosition);
 			}
 		}
 		return possibleMoves;
